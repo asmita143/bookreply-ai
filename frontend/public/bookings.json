@@ -1,0 +1,74 @@
+[
+  {
+    "id": "r-1900",
+    "date": "2026-04-30",
+    "time": "19:00",
+    "partySize": 4,
+    "name": "Test A",
+    "customerRequests": "Vegetarian option?",
+    "status": "Confirmed"
+  },
+  {
+    "id": "r-1915",
+    "date": "2026-04-30",
+    "time": "19:15",
+    "partySize": 2,
+    "name": "Test B",
+    "customerRequests": "",
+    "status": "Confirmed"
+  },
+  {
+    "id": "r-1930",
+    "date": "2026-04-30",
+    "time": "19:30",
+    "partySize": 3,
+    "name": "Test C",
+    "customerRequests": "Birthday celebration",
+    "status": "Confirmed"
+  },
+  {
+    "id": "r-1945",
+    "date": "2026-04-30",
+    "time": "19:45",
+    "partySize": 5,
+    "name": "Test D",
+    "customerRequests": "High chair for child",
+    "status": "Confirmed"
+  },
+  {
+    "id": "r-1730",
+    "date": "2026-04-30",
+    "time": "17:30",
+    "partySize": 2,
+    "name": "Test E",
+    "customerRequests": "Window seat",
+    "status": "Confirmed"
+  },
+  {
+    "id": "r-1800",
+    "date": "2026-04-30",
+    "time": "18:00",
+    "partySize": 4,
+    "name": "Test F",
+    "customerRequests": "Allergy: peanuts",
+    "status": "Confirmed"
+  },
+  {
+    "id": "r-1830",
+    "date": "2026-04-30",
+    "time": "18:30",
+    "partySize": 2,
+    "name": "Test G",
+    "customerRequests": "Anniversary note",
+    "status": "Confirmed"
+  },
+  {
+    "id": "r-1930-2",
+    "date": "2026-04-30",
+    "time": "19:30",
+    "partySize": 2,
+    "name": "Test H",
+    "customerRequests": "Quiet corner",
+    "status": "Confirmed"
+  }
+]

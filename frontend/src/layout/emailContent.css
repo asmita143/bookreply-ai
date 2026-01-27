@@ -1,0 +1,38 @@
+.emailContent {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 16px;
+}
+
+.emailContent__subject {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #111;
+}
+
+.emailContent__meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.emailContent__body {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+    white-space: pre-line;
+}
+
+.emailContent__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 14px;
+    color: #888;
+}

@@ -1,0 +1,53 @@
+[
+  {
+    "id": "e-001",
+    "from": "alex.smith@example.com",
+    "to": "reservations@restaurantx.com",
+    "subject": "Reservation for two on April 30",
+    "receivedAt": "2026-04-29T18:15:00Z",
+    "status": "unread",
+    "preview": "Hi, I'd like to book a table for two on April 30 at 19:00...",
+    "threadId": "t-001"
+  },
+  {
+    "id": "e-002",
+    "from": "jamie.lee@example.com",
+    "to": "reservations@restaurantx.com",
+    "subject": "Birthday dinner reservation",
+    "receivedAt": "2026-04-29T17:40:00Z",
+    "status": "unread",
+    "preview": "Hello, we are planning a small birthday celebration and would love to reserve a table...",
+    "threadId": "t-002"
+  },
+  {
+    "id": "e-003",
+    "from": "jordan.park@example.com",
+    "to": "reservations@restaurantx.com",
+    "subject": "Question about vegetarian options",
+    "receivedAt": "2026-04-29T16:05:00Z",
+    "status": "read",
+    "preview": "Do you have vegetarian or vegan options available for dinner?",
+    "threadId": "t-003"
+  },
+  {
+    "id": "e-004",
+    "from": "maria.garcia@example.com",
+    "to": "reservations@restaurantx.com",
+    "subject": "Change to existing reservation",
+    "receivedAt": "2026-04-29T15:30:00Z",
+    "status": "read",
+    "preview": "We need to update our reservation from 2 guests to 4 guests...",
+    "threadId": "t-004"
+  },
+  {
+    "id": "e-005",
+    "from": "li.wang@example.com",
+    "to": "reservations@restaurantx.com",
+    "subject": "Allergy information",
+    "receivedAt": "2026-04-29T14:55:00Z",
+    "status": "archived",
+    "preview": "One of our guests has a severe peanut allergy. Could you confirm your menu details?",
+    "threadId": "t-005"
+  }
+]
+

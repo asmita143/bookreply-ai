@@ -1,0 +1,46 @@
+.emailList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.emailList__item {
+    padding: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.emailList__item:hover {
+    background: #f7f7f7;
+}
+
+.emailList__item--active {
+    background: #eef2ff;
+}
+
+.emailList__item--unread .emailList__from,
+.emailList__item--unread .emailList__subject {
+    font-weight: 600;
+}
+
+.emailList__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #555;
+}
+
+.emailList__from {
+    color: #111;
+}
+
+.emailList__time {
+    font-size: 12px;
+    color: #888;
+}
+
+.emailList__subject {
+    margin-top: 4px;
+    font-size: 14px;
+    color: #222;
+}
