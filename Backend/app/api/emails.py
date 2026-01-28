@@ -20,5 +20,8 @@ def get_email(email_id: str):
 
 @router.post("/mock")
 def create_mock_email():
-    add_mock_email()
-    return {"message": "Mock email added"}
+    email = add_mock_email()
+    return {
+        "message": "Mock email added",
+        "id": email.id
+    }
