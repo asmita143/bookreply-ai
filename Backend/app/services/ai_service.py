@@ -1,23 +1,39 @@
 from app.mcp.schemas import MCPContext
+from app.services.prompt_builder import build_prompt
+from openai import OpenAI
+import os
+from dotenv import load_dotenv
 
-def generate_draft_reply(context: MCPContext) -> str:
-    """
-    Generates a draft reply using MCP structured context.
-    (For now this can be mock logic before real LLM integration)
-    """
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+
+def generate_rule_based_reply(context: MCPContext) -> str:
 
     if context.request_type == "booking":
-        return f"""
-Dear customer,
+        return f"Thank you for your booking request. We will confirm availability shortly."
 
-Thank you for your booking request at {context.restaurant_name}.
-We have received your message:
+    elif context.request_type == "location":
+        return f"Our restaurant is located at Main Street 101. We look forward to seeing you."
 
-"{context.customer_message}"
+    elif context.request_type == "menu":
+        return f"You can view our menu here on our website. Let us know if you have dietary questions."
 
-Our team will confirm your booking shortly.
+    elif context.request_type == "cancellation":
+        return f"Your cancellation request has been received and processed"
 
-Best regards,
-{context.restaurant_name}
-"""
+    else:
+        return "Thank you for contacting us."
 
+def generate_ai_reply(context):
+    print("I am here")
+    prompt = build_prompt(context)
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are an assistant helping a restaurant manage bookings."},
+            {"role": "user", "content": prompt}
+        ],
+    )
+    return response.choices[0].message.content
