@@ -1,4 +1,4 @@
-import "../../layout/emailList.css";
+import { cn } from "../../lib/utils";
 
 type Email = {
   id: string;
@@ -23,24 +23,29 @@ function formatTime(date: string) {
 
 export function EmailList({ emails, selectedId, onSelect }: Props) {
   return (
-    <ul className="emailList">
+    <ul className="list-none m-0 p-0">
       {emails.map((email) => (
         <li
           key={email.id}
-          className={`emailList__item
-            ${email.id === selectedId ? "emailList__item--active" : ""}
-            ${email.status === "unread" ? "emailList__item--unread" : ""}
-          `}
+          className={cn(
+            "p-3 cursor-pointer border-b border-[#eee]",
+            "hover:bg-[#f7f7f7]",
+            email.id === selectedId && "bg-[#eef2ff]"
+          )}
           onClick={() => onSelect(email.id)}
         >
-          <div className="emailList__row">
-            <span className="emailList__from">{email.from}</span>
-            <span className="emailList__time">
+          <div className="flex justify-between text-[13px] text-[#555]">
+            <span className={cn("text-[#111]", email.status === "unread" && "font-semibold")}>
+              {email.from}
+            </span>
+            <span className="text-xs text-[#888]">
               {formatTime(email.receivedAt)}
             </span>
           </div>
 
-          <div className="emailList__subject">{email.subject}</div>
+          <div className={cn("mt-1 text-sm text-[#222]", email.status === "unread" && "font-semibold")}>
+            {email.subject}
+          </div>
         </li>
       ))}
     </ul>
