@@ -20,7 +20,12 @@ def generate_draft(email_id: str):
         print("Calling AI...")
         draft = generate_ai_reply(context)
         print("AI success:", draft)
-    except Exception:
+
+        if not draft or len(draft.strip()) < 5:
+            raise ValueError("AI returned empty/short response")
+    
+    except Exception as e:
+        print("Fallback triggered:", e)
         draft = generate_rule_based_reply(context)
 
     return {"draft_reply": draft}

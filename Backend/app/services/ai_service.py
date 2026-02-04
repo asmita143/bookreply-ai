@@ -26,7 +26,6 @@ def generate_rule_based_reply(context: MCPContext) -> str:
         return "Thank you for contacting us."
 
 def generate_ai_reply(context):
-    print("I am here")
     prompt = build_prompt(context)
 
     response = client.chat.completions.create(
