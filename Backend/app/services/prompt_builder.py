@@ -1,6 +1,6 @@
 from app.mcp.schemas import MCPContext
 
-def build_prompt(context: MCPContext) -> str:
+def build_prompt(context: MCPContext, occupied_seats, remaining_seats, decision) -> str:
     return f"""
         You are an assistant for {context.restaurant_name}.
 
@@ -8,18 +8,19 @@ def build_prompt(context: MCPContext) -> str:
         "{context.customer_message}"
 
         Booking request details:
-        Date: {context.requested_date}
-        Time: {context.requested_time}
-        Number of people: {context.requested_people}
+        Date: {context.booking_date}
+        Time: {context.booking_time}
+        Number of people: {context.party_size}
 
         Restaurant capacity: {context.capacity}
+        Occupied seats: {occupied_seats}
+        Remaining seats: {remaining_seats}
 
-        Existing bookings for this slot:
-        {context.current_bookings}
+        Decision: {decision}
 
-        Your task:
-        1. Calculate total occupied seats.
-        2. Determine if enough seats remain.
-        3. If available, confirm booking politely.
-        4. If full, suggest alternative time.
+        IMPORTANT:
+        - Only output the final message for the customer.
+        - Do NOT include calculations or reasoning steps.
+        - Be polite and professional.
+        - If REJECT → optionally suggest alternative times.
     """

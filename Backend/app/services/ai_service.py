@@ -25,14 +25,23 @@ def generate_rule_based_reply(context: MCPContext) -> str:
     else:
         return "Thank you for contacting us."
 
-def generate_ai_reply(context):
-    prompt = build_prompt(context)
+def generate_ai_reply(context: MCPContext):
+    occupied_seats = sum(b["people"] for b in context.current_bookings)
+    remaining_seats = context.capacity - occupied_seats
+
+    if remaining_seats >= context.party_size:
+        decision = "ACCEPT"
+    else:
+        decision = "REJECT"
+
+    prompt = build_prompt(context, occupied_seats=occupied_seats, remaining_seats=remaining_seats, decision=decision)
 
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "You are an assistant helping a restaurant manage bookings."},
+            {"role": "system", "content": "You are a restaurant booking assistant. Only output the final customer-facing message."},
             {"role": "user", "content": prompt}
         ],
     )
+    
     return response.choices[0].message.content
