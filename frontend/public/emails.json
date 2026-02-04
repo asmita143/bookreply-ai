@@ -39,6 +39,7 @@
     "preview": "We need to update our reservation from 2 guests to 4 guests...",
     "threadId": "t-004"
   },
+  
   {
     "id": "e-005",
     "from": "li.wang@example.com",
@@ -48,6 +49,51 @@
     "status": "archived",
     "preview": "One of our guests has a severe peanut allergy. Could you confirm your menu details?",
     "threadId": "t-005"
+  },
+
+  {
+    "id": "e-006",
+    "from": "fi.wang@example.com",
+    "to": "reservations@restaurantx.com",
+    "subject": "Allergy information and reservation details",
+    "receivedAt": "2026-04-30T14:55:00Z",
+    "status": "archived",
+    "preview": "One of our guests has a severe peanut allergy. Could you confirm your menu details?One of our guests has a severe peanut allergy. Could you confirm your menu details?One of our guests has a severe peanut allergy. Could you confirm your menu details?One of our guests has a severe peanut allergy. Could you confirm your menu details?One of our guests has a severe peanut allergy. Could you confirm your menu details?",
+    "threadId": "t-006"
+  },
+
+  {
+    "id": "e-007",
+    "from": "li.wang@example.com",
+    "to": "reservations@restaurantx.com",
+    "subject": "Allergy information",
+    "receivedAt": "2026-04-29T14:55:00Z",
+    "status": "unread",
+    "preview": "One of our guests has a severe peanut allergy. Could you confirm your menu details?",
+    "threadId": "t-005"
+  },
+
+  {
+    "id": "e-008",
+    "from": "li.wang@example.com",
+    "to": "reservations@restaurantx.com",
+    "subject": "Allergy information",
+    "receivedAt": "2026-04-29T14:55:00Z",
+    "status": "archived",
+    "preview": "One of our guests has a severe peanut allergy. Could you confirm your menu details?",
+    "threadId": "t-005"
+  },
+
+  {
+    "id": "e-009",
+    "from": "li.wang@example.com",
+    "to": "reservations@restaurantx.com",
+    "subject": "Allergy information",
+    "receivedAt": "2026-04-29T14:55:00Z",
+    "status": "archived",
+    "preview": "One of our guests has a severe peanut allergy. Could you confirm your menu details?",
+    "threadId": "t-005"
   }
+
 ]
 

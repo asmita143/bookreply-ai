@@ -1,5 +1,4 @@
 import React from "react";
-import "./dashboardLayout.css";
 import { SidePanel } from "./SidePanel";
 
 type NavItem = {
@@ -15,26 +14,19 @@ type DashboardLayoutProps = {
 };
 
 export function DashboardLayout({ navItems, activeNavKey, topRight, children }: DashboardLayoutProps) {
-  
-
   return (
-    <div className="rx">
-      {/* Sidebar */}
+    <div className="grid grid-cols-1 min-h-screen bg-[#f4f6f9] text-[#1b2430] font-sans lg:grid-cols-[220px_minmax(0,1fr)]">
       <SidePanel navItems={navItems} activeNavKey={activeNavKey} />
 
-      {/* Main Content */}
-      <div className="rx__content">
-        {/* Top bar */}
-        <header className="rx__topbar">
-          <div className="rx__greeting">
-            <div className="rx__greetingText">Good Afternoon, Anna!</div>
-            
+      <div className="flex flex-col">
+        <header className="bg-white border-b border-[#e6ebf2] px-[18px] py-3 flex items-center justify-between">
+          <div>
+            <div className="font-bold">Good Afternoon, Anna!</div>
           </div>
-          <div className="rx__topRight">{topRight}</div>
+          <div className="flex items-center gap-3 text-[#536173] font-semibold text-[13px]">{topRight}</div>
         </header>
 
-        {/* Page content */}
-        <section className="rx__page">{children}</section>
+        <section className="p-[18px]">{children}</section>
       </div>
     </div>
   );
