@@ -1,22 +1,33 @@
 from datetime import datetime
 from app.models.email import Email
-import uuid
+from app.db.firebase import db
 
-EMAILS = []
+COLLECTION = "emails"
+
+def save_email(email: Email):
+    doc_ref = db.collection(COLLECTION).document()
+    doc_ref.set({
+        "sender": email.sender,
+        "subject": email.subject,
+        "body": email.body,
+        "intent": email.intent,
+        "ai_reply": email.ai_reply,
+        "created_at": datetime.utcnow()
+    })
+    return doc_ref.id
 
 def get_all_emails():
-    return EMAILS
+    docs = db.collection(COLLECTION).stream()
+    return [{**doc.to_dict(), "id": doc.id} for doc in docs]
+
 
 def get_email_by_id(email_id: str):
-    return next((e for e in EMAILS if e.id == email_id), None)
+    doc_ref = db.collection("emails").document(email_id)
+    doc = doc_ref.get()
 
-def add_mock_email():
-    email = Email(
-        id=str(uuid.uuid4()),
-        sender="customer@example.com",
-        subject="Table reservation",
-        body="Hi, I would like to book a table for 2 tomorrow at 7pm.",
-        received_at=datetime.utcnow()
-    )
-    EMAILS.append(email)
-    return email
+    if doc.exists:
+        return doc.to_dict()
+    else:
+        return None
+
+

@@ -1,7 +1,10 @@
 from pydantic import BaseModel
 
 class Booking(BaseModel):
-    id: str
+    customer_name: str
+    email: str
     date: str
     time: str
-    people: int
+    party_size: int
+    status: str
+    source_email_id: str
