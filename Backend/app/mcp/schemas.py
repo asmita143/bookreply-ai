@@ -4,7 +4,6 @@ from typing import Optional, List
 class MCPContext(BaseModel):
     request_type: str 
     customer_message: str
-    customer_email: str
     restaurant_name: str
     capacity: int
 

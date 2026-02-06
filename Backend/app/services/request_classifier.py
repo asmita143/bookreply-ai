@@ -5,9 +5,9 @@ def detect_request_type(message: str) -> str:
         return "booking"
     elif "where" in msg or "location" in msg or "address" in msg:
         return "location"
-    elif "menu" in msg or "vegan" in msg or "food" in msg:
+    elif "menu" in msg or "vegan" in msg or "food" in msg or "dish" in msg:
         return "menu"
-    elif "cancel" in msg:
+    elif "cancel" in msg or "cancellation" in msg:
         return "cancellation"
     else:
         return "general"
