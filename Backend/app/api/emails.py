@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.models.email import Email
+from app.services.request_classifier import detect_request_type
 from app.services.email_service import (
     get_all_emails,
     save_email,
@@ -10,9 +11,15 @@ router = APIRouter(prefix="/emails", tags=["Emails"])
 
 @router.post("/")
 def create_email(email: Email):
+    text = f"{email.subject} {email.body}"
+    intent = detect_request_type(text)
+    email.intent = intent
     email_id = save_email(email)
-    return {"message": "Email saved", "id": email_id}
-
+    return {
+        "message": "Email saved",
+        "id": email_id,
+        "intent": intent
+    }
 
 @router.get("/")
 def list_emails():

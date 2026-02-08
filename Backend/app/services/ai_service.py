@@ -3,10 +3,10 @@ from app.services.prompt_builder import build_prompt
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
+from datetime import datetime
 
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
 
 def generate_rule_based_reply(context: MCPContext) -> str:
 
@@ -45,3 +45,31 @@ def generate_ai_reply(context: MCPContext):
     )
     
     return response.choices[0].message.content
+
+def ai_extract(email_text: str):
+    today = str(datetime.today().date())
+    prompt = f"""
+        Extract booking info from the email. Today's date: {today}.
+        Return JSON only with:
+        booking_date (YYYY-MM-DD or null)
+        booking_time (HH:MM 24-hour or null)
+        party_size (number or null)
+        customer_name (or null)
+        seating_preference (or null)
+        dietary_requirements (or null)
+        alternative_time_range (tuple or null)
+        customer_questions (list or null)
+
+        Email:
+        \"\"\"{email_text}\"\"\"
+    """
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0
+    )
+    import json
+    try:
+        return json.loads(response.choices[0].message.content.strip())
+    except:
+        return {}
