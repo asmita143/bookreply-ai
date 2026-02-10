@@ -1,6 +1,6 @@
 from app.mcp.schemas import MCPContext
 from app.models.email import Email
-from app.db.bookings_db import get_bookings_for_slot
+from app.services.booking_service import get_bookings_by_slot
 import re
 from word2number import w2n
 from typing import Optional, List
@@ -24,7 +24,7 @@ def build_context_from_email(email: Email) -> MCPContext:
     alternative_time_range = None
     customer_questions = None
 
-    if request_type == "booking":
+    if request_type in ["booking", "cancellation"]:
         booking_date = extract_date(text)
         booking_time = extract_time(text)
         party_size = extract_party_size(text)
@@ -49,7 +49,7 @@ def build_context_from_email(email: Email) -> MCPContext:
             customer_questions = extract_questions(text)
 
         if booking_date and booking_time:
-            current_bookings = get_bookings_for_slot(booking_date, booking_time)
+            current_bookings = get_bookings_by_slot(booking_date, booking_time)
 
     mcp_context = MCPContext(
         request_type=request_type,

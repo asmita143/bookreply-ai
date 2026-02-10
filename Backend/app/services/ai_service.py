@@ -26,7 +26,7 @@ def generate_rule_based_reply(context: MCPContext) -> str:
         return "Thank you for contacting us."
 
 def generate_ai_reply(context: MCPContext):
-    occupied_seats = sum(b["people"] for b in context.current_bookings)
+    occupied_seats = sum(b["party_size"] for b in context.current_bookings)
     remaining_seats = context.capacity - occupied_seats
 
     if remaining_seats >= context.party_size:
@@ -34,7 +34,7 @@ def generate_ai_reply(context: MCPContext):
     else:
         decision = "REJECT"
 
-    prompt = build_prompt(context, occupied_seats=occupied_seats, remaining_seats=remaining_seats, decision=decision)
+    prompt = build_prompt(context, decision=decision)
 
     response = client.chat.completions.create(
         model="gpt-4o-mini",
