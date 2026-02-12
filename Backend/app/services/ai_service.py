@@ -2,6 +2,7 @@ from app.mcp.schemas import MCPContext
 from app.services.prompt_builder import build_prompt
 from openai import OpenAI
 import os
+import json
 from dotenv import load_dotenv
 from datetime import datetime
 
@@ -68,7 +69,7 @@ def ai_extract(email_text: str):
         messages=[{"role": "user", "content": prompt}],
         temperature=0
     )
-    import json
+    
     try:
         return json.loads(response.choices[0].message.content.strip())
     except:

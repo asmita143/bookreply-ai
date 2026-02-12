@@ -3,6 +3,8 @@ from datetime import datetime
 from typing import Optional
 
 class Email(BaseModel):
+    gmail_id: str
+    full_name: Optional[str] = None
     sender: str
     subject: str
     body: str

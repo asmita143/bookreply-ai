@@ -3,7 +3,6 @@ from app.models.email import Email
 from app.services.booking_service import get_bookings_by_slot
 import re
 from word2number import w2n
-from typing import Optional, List
 from datetime import datetime, timedelta
 from app.services.ai_service import ai_extract
 

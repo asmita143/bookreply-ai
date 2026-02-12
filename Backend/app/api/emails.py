@@ -11,14 +11,10 @@ router = APIRouter(prefix="/emails", tags=["Emails"])
 
 @router.post("/")
 def create_email(email: Email):
-    text = f"{email.subject} {email.body}"
-    intent = detect_request_type(text)
-    email.intent = intent
     email_id = save_email(email)
     return {
         "message": "Email saved",
         "id": email_id,
-        "intent": intent
     }
 
 @router.get("/")

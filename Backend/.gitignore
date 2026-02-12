@@ -9,3 +9,4 @@ env/
 .env
 secrets/
 firebase-key.json
+token.json
