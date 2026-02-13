@@ -49,28 +49,44 @@ def generate_ai_reply(context: MCPContext):
 
 def ai_extract(email_text: str):
     today = str(datetime.today().date())
+    
     prompt = f"""
-        Extract booking info from the email. Today's date: {today}.
-        Return JSON only with:
-        booking_date (YYYY-MM-DD or null)
-        booking_time (HH:MM 24-hour or null)
-        party_size (number or null)
-        customer_name (or null)
-        seating_preference (or null)
-        dietary_requirements (or null)
-        alternative_time_range (tuple or null)
-        customer_questions (list or null)
+        You are a helpful assistant. Extract booking information from the following customer email. Today's date is {today}.
 
         Email:
         \"\"\"{email_text}\"\"\"
+
+        Return **strict JSON only**, with keys exactly as below (use null if not available, and arrays for lists):
+
+        {{
+        "booking_date": null,
+        "booking_time": null,
+        "party_size": null,
+        "customer_name": null,
+        "seating_preference": null,
+        "dietary_requirements": null,
+        "alternative_time_range": null,
+        "customer_questions": []
+        }}
+        No extra text, no explanations, no comments, just valid JSON.
     """
+
     response = client.chat.completions.create(
         model="gpt-4o-mini",
-        messages=[{"role": "user", "content": prompt}],
+        messages=[
+            {"role": "system", "content": "You are a strict JSON extractor."},
+            {"role": "user", "content": prompt}
+        ],
         temperature=0
     )
-    
+
+    raw_content = response.choices[0].message.content.strip()
+
+    if raw_content.startswith("```"):
+        raw_content = "\n".join(raw_content.split("\n")[1:-1])
+
     try:
-        return json.loads(response.choices[0].message.content.strip())
-    except:
+        return json.loads(raw_content)
+    except json.JSONDecodeError:
+        print("Failed to parse AI output:", raw_content)
         return {}

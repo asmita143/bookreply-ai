@@ -1,8 +1,7 @@
 from fastapi import APIRouter
 from app.services.email_service import get_email_by_id
-from app.mcp.context_builder import build_context_from_email
 from app.services.ai_service import generate_rule_based_reply
-from app.services.ai_service import generate_ai_reply
+from app.services.mcp_agent import process_email
 
 router = APIRouter(prefix="/ai", tags=["AI"])
 
@@ -13,12 +12,9 @@ def generate_draft(email_id: str):
     
     if not email:
         return {"error": "Email not found"}
-    
-    context = build_context_from_email(email)
 
     try:
-        print("Calling AI...")
-        draft = generate_ai_reply(context)
+        context, draft = process_email(email)
         print("AI success:", draft)
 
         if not draft or len(draft.strip()) < 5:
