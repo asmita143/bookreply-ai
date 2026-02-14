@@ -1,10 +1,12 @@
 from pydantic import BaseModel
+from typing import Optional, List
 
 class Booking(BaseModel):
-    customer_name: str
-    email: str
-    date: str
-    time: str
-    party_size: int
-    status: str
-    source_email_id: str
+    booking_date: Optional[str]
+    booking_time: Optional[str]
+    party_size: Optional[int]
+    customer_name: Optional[str]
+    seating_preference: Optional[str]
+    dietary_requirements: Optional[str]
+    alternative_time_range: Optional[List[str]]
+    customer_questions: Optional[List[str]]
