@@ -1,12 +1,5 @@
 import { cn } from "../../lib/utils";
-
-type Email = {
-  id: string;
-  from: string;
-  subject: string;
-  receivedAt: string;
-  status: string;
-};
+import type { Email } from "../../hooks/useEmails";
 
 type Props = {
   emails: Email[];
@@ -26,25 +19,25 @@ export function EmailList({ emails, selectedId, onSelect }: Props) {
     <ul className="list-none m-0 p-0">
       {emails.map((email) => (
         <li
-          key={email.id}
+          key={email.gmail_id}
           className={cn(
             "p-3 cursor-pointer border-b border-[#eee]",
             "hover:bg-[#f7f7f7]",
-            email.id === selectedId && "bg-[#eef2ff]"
+            email.gmail_id === selectedId && "bg-[#eef2ff]"
           )}
-          onClick={() => onSelect(email.id)}
+          onClick={() => onSelect(email.gmail_id)}
         >
           <div className="flex justify-between text-[13px] text-[#555]">
-            <span className={cn("text-[#111]", email.status === "unread" && "font-semibold")}>
-              {email.from}
+            <span className={cn("text-[#111]", email.intent === "unread" && "font-semibold")}>
+              {email.subject}
             </span>
             <span className="text-xs text-[#888]">
-              {formatTime(email.receivedAt)}
+              {formatTime(email.intent)}
             </span>
           </div>
 
-          <div className={cn("mt-1 text-sm text-[#222]", email.status === "unread" && "font-semibold")}>
-            {email.subject}
+          <div className={cn("mt-1 text-sm text-[#222]", email.intent === "unread" && "font-semibold")}>
+            {email.full_name}
           </div>
         </li>
       ))}

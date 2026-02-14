@@ -1,9 +1,4 @@
-type Email = {
-  from: string;
-  subject: string;
-  preview: string;
-  receivedAt: string;
-};
+import type { Email } from "../../hooks/useEmails";
 
 type Props = {
   email: Email | null;
@@ -61,11 +56,10 @@ export function EmailContent({
         <h2 className="text-xl font-semibold mb-3 text-[#111]">{email.subject}</h2>
 
         <div className="flex justify-between text-[13px] text-[#666] mb-4 pb-4 border-b border-[#eee]">
-          <span>{email.from}</span>
-          <span>{new Date(email.receivedAt).toLocaleString()}</span>
+          <span>{email.sender}</span>
         </div>
 
-        <p className="text-sm leading-relaxed text-[#333] whitespace-pre-line">{email.preview}</p>
+        <p className="text-sm leading-relaxed text-[#333] whitespace-pre-line">{email.intent}</p>
 
         <div className="mt-6 border-t border-[#eef2f7] pt-4">
           <div className="flex flex-wrap gap-2 mb-3">

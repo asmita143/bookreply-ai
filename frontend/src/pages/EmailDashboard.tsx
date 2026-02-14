@@ -1,8 +1,9 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { DashboardLayout } from "../layout/DashboardLayout";
 import { EmailList } from "../components/email/EmailList";
 import { EmailContent } from "../components/email/EmailContent";
 import { useIsMobile } from "../hooks/useMediaQuery";
+import { useEmails } from "../hooks/useEmails";
 
 type Email = {
   id: string;
@@ -14,61 +15,68 @@ type Email = {
 };
 
 export function EmailDashboard() {
-  const [emails, setEmails] = React.useState<Email[]>([]);
-  const [selectedId, setSelectedId] = React.useState<string | null>(null);
-  const [replyDraft, setReplyDraft] = React.useState<string>("");
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [replyDraft, setReplyDraft] = useState<string>("");
   const isMobile = useIsMobile();
+  const { emails, loading, error } = useEmails();
 
-  React.useEffect(() => {
-    fetch("/emails.json")
-      .then((r) => r.json())
-      .then((data: Email[]) => {
-        setEmails(data);
-        const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
-        if (isDesktop && data[0]) setSelectedId(data[0].id);
-      });
-  }, []);
 
-  // When resizing to desktop with no selection, pre-select first email
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isMobile && emails.length > 0 && selectedId === null) {
-      setSelectedId(emails[0].id);
+      setSelectedId(emails[0].gmail_id);
     }
   }, [isMobile, emails, selectedId]);
 
-  const selectedEmail = emails.find((e) => e.id === selectedId) ?? null;
+  const selectedEmail = emails.find((e) => e.gmail_id === selectedId) ?? null;
 
   // Clear reply draft when switching to a different email
-  React.useEffect(() => {
+  useEffect(() => {
     setReplyDraft("");
   }, [selectedId]);
 
   const handleSimplify = () => {
     if (!selectedEmail) return;
-    const text = selectedEmail.preview ?? "";
+    const text = selectedEmail.body ?? "";
     const trimmed = text.length > 220 ? `${text.slice(0, 220)}…` : text;
     setReplyDraft(`Simplified summary:\n\n${trimmed}`);
   };
 
   const handleGenerateReply = () => {
     if (!selectedEmail) return;
-    const from = selectedEmail.from;
+    const from = selectedEmail.sender;
     const namePart = from.split("<")[0].trim();
     const firstName = (namePart.split(" ")[0] ?? from).trim();
     const subject = selectedEmail.subject;
     const template = `Hi ${firstName || "there"},
 
-Thank you for your message about "${subject}". I've reviewed the details and would be happy to help.
+    Thank you for your message about "${subject}". I've reviewed the details and would be happy to help.
 
-Best regards,
-RestaurantX Team`;
+    Best regards,
+    RestaurantX Team`;
 
     setReplyDraft(template);
   };
 
-  // Mobile: one view at a time — list OR detail. Tap email → detail; back → list.
   const showListOnMobile = isMobile && selectedId === null;
   const showDetailOnMobile = isMobile && selectedId !== null;
+
+  if (loading) {
+    return (
+      <DashboardLayout activeNavKey="emails" navItems={[]}>
+        <div className="p-6">Loading emails...</div>
+      </DashboardLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <DashboardLayout activeNavKey="emails" navItems={[]}>
+        <div className="p-6 text-red-500">
+          Error loading emails: {error}
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout
