@@ -3,6 +3,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.oauth2.credentials import Credentials
 from app.models.email import Email
 from email.utils import parseaddr
+from datetime import datetime, timezone
 import base64
 import os
 
@@ -46,11 +47,19 @@ def fetch_emails(max_results=10):
 
         payload = msg_data['payload']
         headers = payload['headers']
+        snippet = msg_data.get("snippet", "")
+
 
         subject = next(h['value'] for h in headers if h['name'] == 'Subject')
         raw_sender = next(h['value'] for h in headers if h['name'] == 'From')
 
         full_name, sender_email = parseaddr(raw_sender)
+
+        internal_date_ms = int(msg_data.get("internalDate", 0))
+        received_at = datetime.fromtimestamp(
+            internal_date_ms / 1000,
+            tz=timezone.utc
+        )
 
         body = ""
         if 'parts' in payload:
@@ -70,9 +79,10 @@ def fetch_emails(max_results=10):
                 full_name=full_name,
                 sender=sender_email,
                 subject=subject,
-                body=body
+                body=body,
+                received_at=received_at,
+                preview=snippet
             )
         )
-
 
     return emails

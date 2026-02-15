@@ -9,4 +9,5 @@ class Email(BaseModel):
     subject: str
     body: str
     intent: Optional[str] = None
-    ai_reply: Optional[str] = None
+    received_at: datetime
+    preview:str

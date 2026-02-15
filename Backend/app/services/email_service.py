@@ -26,8 +26,8 @@ def save_email(email: Email):
         "subject": email.subject,
         "body": email.body,
         "intent": email.intent,
-        "ai_reply": email.ai_reply,
-        "created_at": datetime.utcnow()
+        "received_at": email.received_at,
+        "preview": email.preview
     })
     return doc_ref.id
 
