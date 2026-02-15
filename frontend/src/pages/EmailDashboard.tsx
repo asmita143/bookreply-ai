@@ -4,15 +4,7 @@ import { EmailList } from "../components/email/EmailList";
 import { EmailContent } from "../components/email/EmailContent";
 import { useIsMobile } from "../hooks/useMediaQuery";
 import { useEmails } from "../hooks/useEmails";
-
-type Email = {
-  id: string;
-  from: string;
-  subject: string;
-  preview: string;
-  receivedAt: string;
-  status: string;
-};
+import { cn } from "../lib/utils";
 
 export function EmailDashboard() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -90,48 +82,60 @@ export function EmailDashboard() {
       ]}
       topRight={<div className="py-1.5 px-2.5 rounded-full bg-[#f0f3f8] text-[#2b3a4d]">Anna</div>}
     >
-      <div className="flex items-center justify-between gap-3 mb-2.5">
-        <h1 className="m-0 text-[22px]">Emails</h1>
-      </div>
+      <div className="flex flex-col h-full">
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_620px] gap-3.5 mt-3">
-        {/* Mobile: show list only when no email is selected */}
-        <aside
-          className={showDetailOnMobile ? "hidden" : "bg-white border border-[#e6ebf2] rounded-xl overflow-hidden"}
-        >
-          <div className="py-3 px-3.5 border-b border-[#eef2f7] bg-[#fbfcfe]">
-            <div className="font-extrabold">Inbox</div>
-            {isMobile && (
-              <p className="text-xs text-[#6b7a90] font-normal mt-0.5">
-                Tap an email to read
-              </p>
-            )}
+        <div className="shrink-0 flex items-center justify-between gap-3 mb-2.5">
+          <h1 className="m-0 text-[22px]">Emails</h1>
+        </div>
+        
+        <div className="flex-1 min-h-0">
+
+          <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-3.5 h-full">
+            {/* Mobile: show list only when no email is selected */}
+            <aside
+              className={cn(
+                "h-full",
+                showDetailOnMobile ? "hidden" : "bg-white border border-[#e6ebf2] rounded-xl overflow-hidden"
+              )}
+            >
+              <div className="h-full flex flex-col">
+                <div className="shrink-0 py-3 px-3.5 border-b border-[#eef2f7] bg-[#fbfcfe]">
+                  <div className="font-extrabold">Inbox</div>
+                  {isMobile && (
+                    <p className="text-xs text-[#6b7a90] font-normal mt-0.5">
+                      Tap an email to read
+                    </p>
+                  )}
+                </div>
+                <div className="flex-1 min-h-0">
+                  <EmailList
+                    emails={emails}
+                    selectedId={selectedId}
+                    onSelect={setSelectedId}
+                  />
+                </div>
+              </div>
+            </aside>
+
+            {/* Mobile: show detail only when an email is selected (with back). Desktop: always show. */}
+            <section
+               className={cn(
+                "h-full",
+                showListOnMobile
+                  ? "hidden"
+                  : "bg-white border border-[#e6ebf2] rounded-xl overflow-hidden"
+              )}
+            >
+              <EmailContent
+                email={selectedEmail}
+                onBack={isMobile && selectedId !== null ? () => setSelectedId(null) : undefined}
+                replyDraft={replyDraft}
+                onReplyDraftChange={setReplyDraft}
+                onGenerateReply={handleGenerateReply}
+              />
+            </section>
           </div>
-
-          <EmailList
-            emails={emails}
-            selectedId={selectedId}
-            onSelect={setSelectedId}
-          />
-        </aside>
-
-        {/* Mobile: show detail only when an email is selected (with back). Desktop: always show. */}
-        <section
-          className={
-            showListOnMobile
-              ? "hidden"
-              : "bg-white border border-[#e6ebf2] rounded-xl overflow-hidden flex flex-col min-h-0 lg:min-h-[400px]"
-          }
-        >
-          <EmailContent
-            email={selectedEmail}
-            onBack={isMobile && selectedId !== null ? () => setSelectedId(null) : undefined}
-            replyDraft={replyDraft}
-            onReplyDraftChange={setReplyDraft}
-            onSimplify={handleSimplify}
-            onGenerateReply={handleGenerateReply}
-          />
-        </section>
+        </div>
       </div>
     </DashboardLayout>
   );

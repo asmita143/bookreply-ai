@@ -7,6 +7,8 @@ export type Email = {
     subject: string
     body: string
     intent: string
+    preview: string
+    received_at: string
 };
 
 export function useEmails() {

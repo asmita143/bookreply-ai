@@ -8,8 +8,6 @@ type Props = {
   replyDraft: string;
   /** Called whenever the reply draft text changes. */
   onReplyDraftChange: (value: string) => void;
-  /** Optional handler for Simplify action. */
-  onSimplify?: () => void;
   /** Optional handler for Generate reply action. */
   onGenerateReply?: () => void;
 };
@@ -19,7 +17,6 @@ export function EmailContent({
   onBack,
   replyDraft,
   onReplyDraftChange,
-  onSimplify,
   onGenerateReply,
 }: Props) {
   const handleCopy = () => {
@@ -29,16 +26,29 @@ export function EmailContent({
 
   if (!email) {
     return (
-      <div className="flex items-center justify-center h-full min-h-[200px] text-sm text-[#888]">
-        Select an email
+      <div className="flex flex-col items-center justify-center h-full min-h-100 text-sm text-gray-400 bg-gray-50/50">
+        <svg className="w-16 h-16 mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+        </svg>
+        <p className="text-lg font-medium text-gray-500">No email selected</p>
+        <p className="text-sm text-gray-400 mt-1">Select an email from your inbox to view it</p>
       </div>
     );
   }
 
+  const formattedDate = new Date(email.received_at).toLocaleString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
   return (
-    <div className="flex flex-col h-full min-h-0">
+    <div className="flex flex-col h-full min-h-0 bg-white">
       {onBack && (
-        <div className="shrink-0 flex items-center gap-2 px-4 py-3 border-b border-[#e6ebf2] bg-[#fbfcfe]">
+        <div className="shrink-0 flex items-center gap-2 px-6 py-3 border-b border-[#e6ebf2] bg-[#fbfcfe]">
           <button
             type="button"
             onClick={onBack}
@@ -52,62 +62,102 @@ export function EmailContent({
           </button>
         </div>
       )}
-      <div className="flex flex-col flex-1 min-h-0 overflow-auto p-4">
-        <h2 className="text-xl font-semibold mb-3 text-[#111]">{email.subject}</h2>
+      <div className="flex-1 overflow-y-auto min-h-0">
+        <div className=" mx-auto px-6 py-8">
+          <div className="mb-8">
+            <h2 className="text-3xl font-light mb-8 text-gray-900 leading-tight">{email.subject}</h2>
 
-        <div className="flex justify-between text-[13px] text-[#666] mb-4 pb-4 border-b border-[#eee]">
-          <span>{email.sender}</span>
-        </div>
+            <div className="flex items-start justify-between">
 
-        <p className="text-sm leading-relaxed text-[#333] whitespace-pre-line">{email.intent}</p>
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-linear-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-semibold text-sm shrink-0">
+                  {(email.full_name || email.sender).charAt(0).toUpperCase()}
+                </div>
 
-        <div className="mt-6 border-t border-[#eef2f7] pt-4">
-          <div className="flex flex-wrap gap-2 mb-3">
-            <button
-              type="button"
-              onClick={() => onSimplify && onSimplify()}
-              className="inline-flex items-center justify-center rounded-[10px] border border-[#d7deea] bg-white px-3 py-2 text-[13px] font-semibold text-[#1b2430] hover:bg-[#f4f6fb] focus:outline-none focus:ring-2 focus:ring-[#2f6fed] focus:ring-offset-1"
-            >
-              Simplify
-            </button>
-            <button
-              type="button"
-              onClick={() => onGenerateReply && onGenerateReply()}
-              className="inline-flex items-center justify-center rounded-[10px] border border-[#2a62d2] bg-[#2f6fed] px-3 py-2 text-[13px] font-semibold text-white hover:bg-[#255ed9] focus:outline-none focus:ring-2 focus:ring-[#2f6fed] focus:ring-offset-1"
-            >
-              Generate reply
-            </button>
+                <div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-semibold text-gray-900">
+                      {email.full_name || email.sender}
+                    </span>
+                    {email.full_name && (
+                      <span className="text-sm text-gray-500">
+                        &lt;{email.sender}&gt;
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2 mt-1 text-sm text-gray-500">
+                    <time dateTime={email.received_at}>{formattedDate}</time>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="flex items-center justify-between mb-1.5 gap-2">
-            <label className="block text-xs font-semibold text-[#6b7a90]">
-              Reply draft
-            </label>
-            <button
-              type="button"
-              onClick={handleCopy}
-              disabled={!replyDraft.trim()}
-              className={
-                "inline-flex items-center gap-1 rounded-md border border-[#e6ebf2] px-2 py-1 text-[11px] font-semibold text-[#536173] bg-white hover:bg-[#f4f6fb] focus:outline-none focus:ring-2 focus:ring-[#2f6fed] focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed"
-              }
-              aria-label="Copy reply draft"
-            >
-              <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="none" aria-hidden>
-                <rect x="6" y="2" width="11" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
-                <rect x="3" y="5" width="11" height="13" rx="2" stroke="currentColor" strokeWidth="1.5" />
-              </svg>
-              <span>Copy</span>
-            </button>
+          <div className="prose prose-sm sm:prose-base w-full mb-10 rounded-xl border border-gray-200 shadow-sm p-4">
+            <div className="text-gray-800 leading-relaxed whitespace-pre-line">
+              {email.body}
+            </div>
           </div>
-          <textarea
-            value={replyDraft}
-            onChange={(e) => onReplyDraftChange(e.target.value)}
-            className="w-full min-h-[120px] max-h-[320px] text-sm leading-relaxed text-[#111] border border-[#e6ebf2] rounded-lg px-3 py-2 resize-y focus:outline-none focus:ring-2 focus:ring-[#2f6fed] focus:border-[#2a62d2] bg-white"
-            placeholder="Generate a reply or start typing your own..."
-          />
-          <p className="mt-1 text-[11px] text-[#6b7a90]">
-            You can edit this reply before sending it from your email client.
-          </p>
+
+          <div className="shrink-0 border-t border-gray-200 pt-8">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-medium text-gray-900">Reply Draft</h3>
+              <div className="">
+                {onGenerateReply && (
+                  <button
+                    type="button"
+                    onClick={onGenerateReply}
+                    className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors shadow-sm"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Generate Reply
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div className="bg-gray-50/80 rounded-xl border border-gray-200 overflow-hidden">
+              <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200">
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-1.5 text-sm text-gray-600">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <span>To: {email.sender}</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleCopy}
+                  disabled={!replyDraft.trim()}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  aria-label="Copy reply draft"
+                >
+                  <svg className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="none" aria-hidden>
+                    <rect x="6" y="2" width="11" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                    <rect x="3" y="5" width="11" height="13" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                  </svg>
+                  <span>Copy to clipboard</span>
+                </button>
+              </div>
+
+              <textarea
+                value={replyDraft}
+                onChange={(e) => onReplyDraftChange(e.target.value)}
+                className="w-full min-h-40 p-4 text-sm leading-relaxed text-gray-800 border-0 focus:ring-0 focus:outline-none resize-y bg-white font-light"
+                placeholder="Write your reply here, or click 'Generate Reply' to get started..."
+              />
+              
+              <div className="px-4 py-3 bg-gray-50/80 border-t border-gray-200 text-xs text-gray-500 flex items-center gap-2">
+                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>You can edit this reply before sending it from your email client.</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
