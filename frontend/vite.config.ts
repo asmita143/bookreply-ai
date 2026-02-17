@@ -8,6 +8,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/emails": "http://localhost:8000",
+      "/gmail/sync": "http://localhost:8000",
     },
   },
 })

@@ -24,7 +24,7 @@ export function SidePanel({ navItems, activeNavKey }: SidePanelProps) {
 
   return (
     <aside
-      className="bg-gradient-to-b from-[#243144] to-[#1e2a3a] text-[#e8eef7] py-3.5 px-3 flex flex-row flex-wrap items-center justify-between gap-2 lg:flex-col lg:flex-nowrap lg:items-stretch lg:justify-start lg:gap-3.5"
+      className="bg-linear-to-b from-[#243144] to-[#1e2a3a] text-[#e8eef7] py-3.5 px-3 flex flex-row flex-wrap items-center justify-between gap-2 lg:flex-col lg:flex-nowrap lg:items-stretch lg:justify-start lg:gap-3.5"
       aria-label="Primary navigation"
     >
       <div className="flex items-center gap-2.5 font-extrabold tracking-wide">

@@ -42,5 +42,5 @@ export function useEmails() {
         fetchEmails();
     }, []);
 
-  return { emails, loading, error };
+  return { emails, loading, error, refetch: fetchEmails };
 }

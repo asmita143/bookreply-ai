@@ -29,7 +29,7 @@ export function EmailList({ emails, selectedId, onSelect }: Props) {
           <li
             key={email.gmail_id}
             className={cn(
-              "p-3 cursor-pointer transition-all duration-200",
+              "p-3 transition-all duration-200",
               "hover:bg-gray-50 hover:shadow-sm",
               email.gmail_id === selectedId && "bg-blue-50 hover:bg-blue-50 border-l-4 border-blue-500"
             )}
