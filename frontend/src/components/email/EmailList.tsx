@@ -51,7 +51,6 @@ export function EmailList({ emails, selectedId, onSelect }: Props) {
             >
               {email.subject}
             </div>
-
             <div className="text-xs text-gray-500 line-clamp-1 leading-relaxed">
               {email.preview}
             </div>

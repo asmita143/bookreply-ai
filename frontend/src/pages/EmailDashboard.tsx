@@ -8,10 +8,9 @@ import { cn } from "../lib/utils";
 
 export function EmailDashboard() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [replyDraft, setReplyDraft] = useState<string>("");
+  const [draft, setDraft] = useState("");
   const isMobile = useIsMobile();
-  const { emails, loading, error, refetch } = useEmails();
-  const [isSyncing, setIsSyncing] = useState(false);
+  const { emails, loading, error, syncEmails, isSyncing, generateDraft, isGeneratingDraft } = useEmails();
 
   useEffect(() => {
     if (!isMobile && emails.length > 0 && selectedId === null) {
@@ -21,48 +20,16 @@ export function EmailDashboard() {
 
   const selectedEmail = emails.find((e) => e.gmail_id === selectedId) ?? null;
 
-  // Clear reply draft when switching to a different email
   useEffect(() => {
-    setReplyDraft("");
+    setDraft("");
   }, [selectedId]);
 
-  const handleGenerateReply = () => {
+  const handleGenerateReply = async () => {
     if (!selectedEmail) return;
-    const from = selectedEmail.sender;
-    const namePart = from.split("<")[0].trim();
-    const firstName = (namePart.split(" ")[0] ?? from).trim();
-    const subject = selectedEmail.subject;
-    const template = `Hi ${firstName || "there"},
-
-    Thank you for your message about "${subject}". I've reviewed the details and would be happy to help.
-
-    Best regards,
-    RestaurantX Team`;
-
-    setReplyDraft(template);
-  };
-
-  const handleSyncEmails = async () => {
-  setIsSyncing(true);
-    try {
-      const response = await fetch("/gmail/sync", {
-        method: "POST",
-      });
-
-      if (!response.ok) {
-        throw new Error("Sync failed");
-      }
-
-      const data = await response.json();
-      console.log("Sync result:", data);
-
-      await refetch();
-
-    } catch (error) {
-      console.error("Sync failed:", error);
-    } finally {
-      setIsSyncing(false);
-    }
+    console.log(selectedEmail.gmail_id)
+    const result = await generateDraft(selectedEmail.gmail_id);
+    setDraft(result);
+    console.log(draft)
   };
 
   const showListOnMobile = isMobile && selectedId === null;
@@ -115,7 +82,8 @@ export function EmailDashboard() {
                   <div className="flex items-center justify-between">
                     <div className="font-extrabold">Inbox</div>
                       <button
-                        onClick={handleSyncEmails}
+                        onClick={syncEmails}
+                        disabled={isSyncing}
                         className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-base font-bold text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-blue-50 cursor-pointer"
                         aria-label="Sync emails"
                         title="Check for new emails"
@@ -165,9 +133,10 @@ export function EmailDashboard() {
               <EmailContent
                 email={selectedEmail}
                 onBack={isMobile && selectedId !== null ? () => setSelectedId(null) : undefined}
-                replyDraft={replyDraft}
-                onReplyDraftChange={setReplyDraft}
+                replyDraft={draft}
+                onReplyDraftChange={setDraft}
                 onGenerateReply={handleGenerateReply}
+                isGenerating={isGeneratingDraft}
               />
             </section>
           </div>

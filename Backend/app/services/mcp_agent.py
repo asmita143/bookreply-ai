@@ -11,7 +11,18 @@ def process_email(email: Email) -> MCPContext:
         available = check_availability(context)
 
         if available:
-            create_booking(context)
+            booking_data = {
+                "customer_name": context.customer_name,
+                "date": context.booking_date,
+                "time": context.booking_time,
+                "party_size": context.party_size,
+                "email": context.customer_email,
+                "source_email_id": email.gmail_id,
+                "dietary_requirements": context.dietary_requirements,
+                "customer_questions": context.customer_questions
+
+            }
+            create_booking(booking_data)
 
     ai_reply = generate_ai_reply(context)
 

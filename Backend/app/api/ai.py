@@ -12,6 +12,9 @@ def generate_draft(email_id: str):
     
     if not email:
         return {"error": "Email not found"}
+    
+    context = None
+    draft = None 
 
     try:
         context, draft = process_email(email)
@@ -22,6 +25,8 @@ def generate_draft(email_id: str):
     
     except Exception as e:
         print("Fallback triggered:", e)
+        if context is None:
+            context = {}
         draft = generate_rule_based_reply(context)
 
     return {"draft_reply": draft}

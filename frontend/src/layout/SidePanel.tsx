@@ -43,7 +43,7 @@ export function SidePanel({ navItems, activeNavKey }: SidePanelProps) {
               to={path}
               className={cn(
                 "text-[#d5dfef] no-underline py-2.5 px-2.5 rounded-[10px] font-semibold text-[13px]",
-                isActive ? "bg-white/10" : "hover:bg-white/[0.06]"
+                isActive ? "bg-white/10" : "hover:bg-white/6"
               )}
             >
               {item.label}

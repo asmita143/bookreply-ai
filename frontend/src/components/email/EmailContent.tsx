@@ -2,14 +2,11 @@ import type { Email } from "../../hooks/useEmails";
 
 type Props = {
   email: Email | null;
-  /** When provided, shows a back button (e.g. for mobile list→detail flow). */
   onBack?: () => void;
-  /** Current editable reply text. */
   replyDraft: string;
-  /** Called whenever the reply draft text changes. */
   onReplyDraftChange: (value: string) => void;
-  /** Optional handler for Generate reply action. */
   onGenerateReply?: () => void;
+  isGenerating: boolean;
 };
 
 export function EmailContent({
@@ -18,10 +15,10 @@ export function EmailContent({
   replyDraft,
   onReplyDraftChange,
   onGenerateReply,
+  isGenerating
 }: Props) {
   const handleCopy = () => {
-    if (!replyDraft.trim()) return;
-    void navigator.clipboard.writeText(replyDraft);
+    
   };
 
   if (!email) {
@@ -103,18 +100,17 @@ export function EmailContent({
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium text-gray-900">Reply Draft</h3>
               <div className="">
-                {onGenerateReply && (
-                  <button
-                    type="button"
-                    onClick={onGenerateReply}
-                    className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors shadow-sm"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Generate Reply
-                  </button>
-                )}
+                <button
+                  type="button"
+                  onClick={onGenerateReply}
+                  disabled={isGenerating}
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors shadow-sm"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  {isGenerating ? "Generating..." : "Generate AI Reply"}
+                </button>
               </div>
             </div>
 
@@ -131,7 +127,6 @@ export function EmailContent({
                 <button
                   type="button"
                   onClick={handleCopy}
-                  disabled={!replyDraft.trim()}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   aria-label="Copy reply draft"
                 >

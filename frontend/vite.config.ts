@@ -9,6 +9,7 @@ export default defineConfig({
     proxy: {
       "/emails": "http://localhost:8000",
       "/gmail/sync": "http://localhost:8000",
+      "/ai/draft/": "http://localhost:8000",
     },
   },
 })
