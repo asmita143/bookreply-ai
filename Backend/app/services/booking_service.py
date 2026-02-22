@@ -6,7 +6,15 @@ COLLECTION = "bookings"
 
 def create_booking(booking: Booking):
     doc_ref = db.collection(COLLECTION).document()
-    doc_ref.set(booking)
+    doc_ref.set({
+        "customer_name": booking.customer_name,
+        "date": booking.booking_date,
+        "time": booking.booking_time,
+        "email": booking.customer_email,
+        "party_size": booking.party_size,
+        "dietary_requirements": booking.dietary_requirements,
+        "customer_questions": booking.customer_questions
+    })
     return doc_ref.id
 
 
