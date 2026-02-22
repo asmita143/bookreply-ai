@@ -5,12 +5,17 @@ import { EmailContent } from "../components/email/EmailContent";
 import { useIsMobile } from "../hooks/useMediaQuery";
 import { useEmails } from "../hooks/useEmails";
 import { cn } from "../lib/utils";
+import BookingConfirmationModal from "../components/Modal/BookingConfirmationModal";
+import { useBooking } from "../hooks/useBooking";
 
 export function EmailDashboard() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
   const isMobile = useIsMobile();
   const { emails, loading, error, syncEmails, isSyncing, generateDraft, isGeneratingDraft } = useEmails();
+  const {createBooking, isCreating} = useBooking();
+  const [bookingData, setBookingData] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (!isMobile && emails.length > 0 && selectedId === null) {
@@ -28,8 +33,26 @@ export function EmailDashboard() {
     if (!selectedEmail) return;
     console.log(selectedEmail.gmail_id)
     const result = await generateDraft(selectedEmail.gmail_id);
-    setDraft(result);
-    console.log(draft)
+    setDraft(result.draft_reply);
+
+    if (result.booking_available) {
+      setBookingData(result.booking_data);
+      setShowModal(true);   
+    }
+  };
+
+  const handleConfirmBooking = async () => {
+    if (!bookingData) return;
+    try {
+      await createBooking(bookingData);
+      alert("Booking created successfully!");
+      setShowModal(false);
+
+    } catch (error) {
+      console.error(error);
+      alert("Failed to create booking.");
+    }
+
   };
 
   const showListOnMobile = isMobile && selectedId === null;
@@ -139,6 +162,15 @@ export function EmailDashboard() {
                 isGenerating={isGeneratingDraft}
               />
             </section>
+
+            {bookingData && (
+              <BookingConfirmationModal
+                isOpen={showModal}
+                bookingData={bookingData}
+                onClose={() => setShowModal(false)}
+                onConfirm={handleConfirmBooking}
+              />
+            )}
           </div>
         </div>
       </div>

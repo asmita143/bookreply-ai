@@ -77,7 +77,7 @@ export function useEmails() {
 
             const data = await response.json();
 
-            return data.draft_reply;
+            return data;
 
         } catch (err: any) {
             setError(err.message || "Draft generation failed");
