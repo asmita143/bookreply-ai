@@ -1,8 +1,8 @@
 from app.mcp.schemas import MCPContext
-from app.models.email import Email
-from app.services.booking_service import get_bookings_by_slot
+from models.email import Email
 from datetime import datetime
-from app.services.ai_service import ai_extract
+from mcp_client.services.ai_service import ai_extract
+from mcp_client.tool_router import execute_tool
 
 RESTAURANT_CAPACITY = 20
 
@@ -22,10 +22,21 @@ def build_context_from_email(email: Email) -> MCPContext:
     alternative_time_range = ai_data.get("alternative_time_range")
     customer_questions = ai_data.get("customer_questions")
 
+    current_bookings = []
     if booking_date and booking_time:
-        current_bookings = get_bookings_by_slot(booking_date, booking_time)
-    else:
-        current_bookings = []
+        current_bookings = execute_tool("get_bookings_by_slot", {
+            "date": booking_date,
+            "time": booking_time
+        })
+        
+        if isinstance(current_bookings, dict) and current_bookings.get("status") == "success":
+            bookings = current_bookings.get("data", [])
+            current_bookings = bookings if isinstance(bookings, list) else []
+            print("Booking tool returned list:", current_bookings)
+        else:
+            print("Booking tool returned non-list:", current_bookings)
+            current_bookings = []
+        
 
     mcp_context = MCPContext(
         request_type=request_type,

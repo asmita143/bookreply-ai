@@ -1,7 +1,7 @@
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.oauth2.credentials import Credentials
-from app.models.email import Email
+from models.email import Email
 from email.utils import parseaddr
 from datetime import datetime, timezone
 import base64

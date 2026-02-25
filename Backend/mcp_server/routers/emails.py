@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from app.models.email import Email
-from app.services.request_classifier import detect_request_type
-from app.services.email_service import (
+from models.email import Email
+from mcp_server.services.email_service import (
     get_all_emails,
     save_email,
     get_email_by_id
@@ -21,7 +20,7 @@ def create_email(email: Email):
 def list_emails():
     return get_all_emails()
 
-@router.get("/emails/{email_id}")
+@router.get("/{email_id}")
 def read_email(email_id: str):
     email = get_email_by_id(email_id)
 

@@ -1,7 +1,6 @@
-from datetime import datetime
-from app.models.email import Email
+from models.email import Email
 from app.db.firebase import db
-from app.services.request_classifier import detect_request_type
+from mcp_server.services.request_classifier import detect_request_type
 
 COLLECTION = "emails"
 
