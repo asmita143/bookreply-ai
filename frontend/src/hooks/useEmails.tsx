@@ -71,6 +71,8 @@ export function useEmails() {
                 method: "GET",
             });
 
+            console.log(response)
+
             if (!response.ok) {
                 throw new Error("Failed to generate draft");
             }

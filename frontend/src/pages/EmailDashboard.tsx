@@ -6,16 +6,16 @@ import { useIsMobile } from "../hooks/useMediaQuery";
 import { useEmails } from "../hooks/useEmails";
 import { cn } from "../lib/utils";
 import BookingConfirmationModal from "../components/Modal/BookingConfirmationModal";
-import { useBooking } from "../hooks/useBooking";
+import BookingCancelledModal from "../components/Modal/CancellationConfirmationModal";
 
 export function EmailDashboard() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [draft, setDraft] = useState("");
   const isMobile = useIsMobile();
   const { emails, loading, error, syncEmails, isSyncing, generateDraft, isGeneratingDraft } = useEmails();
-  const {createBooking, isCreating} = useBooking();
   const [bookingData, setBookingData] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showCancelledModal, setShowCancelledModal] = useState(false);
 
   useEffect(() => {
     if (!isMobile && emails.length > 0 && selectedId === null) {
@@ -34,25 +34,18 @@ export function EmailDashboard() {
     console.log(selectedEmail.gmail_id)
     const result = await generateDraft(selectedEmail.gmail_id);
     setDraft(result.draft_reply);
+    console.log("Booking available: ", result.booking_available )
+    console.log("Cancellation status is : ", result.cancellation_status )
 
     if (result.booking_available) {
       setBookingData(result.booking_data);
       setShowModal(true);   
     }
-  };
 
-  const handleConfirmBooking = async () => {
-    if (!bookingData) return;
-    try {
-      await createBooking(bookingData);
-      alert("Booking created successfully!");
-      setShowModal(false);
-
-    } catch (error) {
-      console.error(error);
-      alert("Failed to create booking.");
-    }
-
+    if (result.cancellation_status) {
+      setBookingData(result.booking_data); 
+      setShowCancelledModal(true);
+  }
   };
 
   const showListOnMobile = isMobile && selectedId === null;
@@ -164,12 +157,20 @@ export function EmailDashboard() {
             </section>
 
             {bookingData && (
-              <BookingConfirmationModal
-                isOpen={showModal}
-                bookingData={bookingData}
-                onClose={() => setShowModal(false)}
-                onConfirm={handleConfirmBooking}
-              />
+              <>
+                <BookingConfirmationModal
+                  isOpen={showModal}
+                  bookingData={bookingData}
+                  onClose={() => setShowModal(false)}
+                />
+
+                <BookingCancelledModal
+                  isOpen={showCancelledModal}
+                  bookingData={bookingData}
+                  onClose={() => setShowCancelledModal(false)}
+                />  
+              </>
+
             )}
           </div>
         </div>
