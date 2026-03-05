@@ -83,7 +83,7 @@ export function ReservationsDashboard() {
           <button
             key={t}
             className={cn(
-              "min-w-[78px] border rounded-[10px] py-2 px-2.5 text-left cursor-pointer",
+              "min-w-19.5 border rounded-[10px] py-2 px-2.5 text-left cursor-pointer",
               selected?.time === t
                 ? "bg-[#fff3c4] border-[#ead78b]"
                 : "border-[#e6ebf2] bg-[#f8fafc]"

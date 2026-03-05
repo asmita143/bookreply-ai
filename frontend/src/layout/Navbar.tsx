@@ -19,7 +19,7 @@ export function Navbar() {
           key={item.to}
           className={cn(
             "text-[#d5dfef] no-underline py-2.5 px-2.5 rounded-[10px] font-semibold text-[13px]",
-            location.pathname === item.to ? "bg-white/10" : "hover:bg-white/[0.06]"
+            location.pathname === item.to ? "bg-white/10" : "hover:bg-white/6"
           )}
           to={item.to}
         >

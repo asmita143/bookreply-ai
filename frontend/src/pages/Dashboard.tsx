@@ -16,7 +16,7 @@ export function DashboardLayout({ navItems, children, topRight }: DashboardLayou
   return (
     <div className="grid grid-cols-1 min-h-screen bg-[#f4f6f9] text-[#1b2430] font-sans lg:grid-cols-[220px_minmax(0,1fr)]">
       <aside
-        className="bg-gradient-to-b from-[#243144] to-[#1e2a3a] text-[#e8eef7] py-3.5 px-3 flex flex-row flex-wrap items-center justify-between gap-2 lg:flex-col lg:flex-nowrap lg:items-stretch lg:justify-start lg:gap-3.5"
+        className="bg-linear-to-b from-[#243144] to-[#1e2a3a] text-[#e8eef7] py-3.5 px-3 flex flex-row flex-wrap items-center justify-between gap-2 lg:flex-col lg:flex-nowrap lg:items-stretch lg:justify-start lg:gap-3.5"
         aria-label="Primary navigation"
       >
         <div className="flex items-center gap-2.5 font-extrabold tracking-wide">
@@ -31,7 +31,7 @@ export function DashboardLayout({ navItems, children, topRight }: DashboardLayou
               to={item.path}
               className={cn(
                 "text-[#d5dfef] no-underline py-2.5 px-2.5 rounded-[10px] font-semibold text-[13px]",
-                location.pathname === item.path ? "bg-white/10" : "hover:bg-white/[0.06]"
+                location.pathname === item.path ? "bg-white/10" : "hover:bg-white/6"
               )}
             >
               {item.label}
@@ -54,7 +54,7 @@ export function DashboardLayout({ navItems, children, topRight }: DashboardLayou
           <div className="flex items-center gap-3 text-[#536173] font-semibold text-[13px]">{topRight}</div>
         </header>
 
-        <section className="p-[18px]">{children}</section>
+        <section className="p-4.5">{children}</section>
       </div>
     </div>
   );

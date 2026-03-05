@@ -104,12 +104,40 @@ export function EmailContent({
                   type="button"
                   onClick={onGenerateReply}
                   disabled={isGenerating}
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors shadow-sm"
+                  className="relative inline-flex items-center gap-2.5 px-6 py-3 text-sm font-bold text-white bg-linear-to-r from-purple-700 via-indigo-700 to-blue-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-300 shadow-[0_0_20px_rgba(99,102,241,0.5)] group disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  {isGenerating ? "Generating..." : "Generate AI Reply"}
+                  {/* Neon wave effect */}
+                  {isGenerating && (
+                    <>
+                      {/* Outer glow rings */}
+                      <span className="absolute -inset-1 rounded-xl border-2 border-indigo-400/60 animate-ping opacity-60 shadow-[0_0_10px_rgba(99,102,241,0.4)]" style={{ animationDuration: '2s' }} />
+                      <span className="absolute -inset-2 rounded-xl border-2 border-purple-400/40 animate-ping opacity-40 shadow-[0_0_15px_rgba(168,85,247,0.3)]" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }} />
+                      <span className="absolute -inset-3 rounded-xl border-2 border-blue-400/20 animate-ping opacity-20 shadow-[0_0_20px_rgba(59,130,246,0.2)]" style={{ animationDuration: '4s', animationDelay: '1s' }} />
+                      {/* Glow particles */}
+                      {[...Array(6)].map((_, i) => (
+                        <span
+                          key={i}
+                          className="absolute w-1 h-1 bg-white rounded-full animate-ping"
+                          style={{
+                            top: `${Math.random() * 100}%`,
+                            left: `${Math.random() * 100}%`,
+                            animationDelay: `${i * 0.2}s`,
+                            boxShadow: '0 0 10px white'
+                          }}
+                        />
+                      ))}
+                    </>
+                  )}
+                  
+                  <span className="relative z-10 text-shadow-lg">
+                    {isGenerating ? (
+                      <span className="bg-linear-to-r from-white to-indigo-200 bg-clip-text text-transparent">
+                        Generating with AI
+                      </span>
+                    ) : (
+                      "Generate AI Reply"
+                    )}
+                  </span>
                 </button>
               </div>
             </div>
