@@ -56,6 +56,8 @@ def generate_ai_reply(context: MCPContext, sender: str):
             When booking availability must be checked, ALWAYS call check_availability first.
             If available is true, call create_booking.
             If available is false, politely reject.
+            If location and Opening hours, call get_restaurant_info ONLY.
+            If menu, call get_menu_data ONLY.
             If user requests cancellation, call cancel_booking.
             Only produce final customer-facing message after tool responses."""
         },
@@ -89,26 +91,18 @@ def generate_ai_reply(context: MCPContext, sender: str):
         for tool_call in message.tool_calls:
             tool_name = tool_call.function.name
             arguments = json.loads(tool_call.function.arguments)
-            tool_result = None
+            arguments["email"] = sender
+
+            tool_result = execute_tool(tool_name, arguments)
 
             if tool_name == "check_availability":
-                arguments["capacity"] = 20
-                tool_result = execute_tool(tool_name, arguments)
                 booking_available = tool_result.get("available", False)
+                print("Booking status is: ", booking_available)
 
-            elif tool_name == "create_booking":
-                tool_result = execute_tool(tool_name, arguments)
-                
             elif tool_name == "cancel_booking":
-                tool_result = execute_tool(tool_name, {
-                    "email": sender,
-                    "booking_date": arguments.get("booking_date"),
-                    "booking_time": arguments.get("booking_time"),
-                })
                 cancellation_status = tool_result.get("success")
                 print("Cancellation status is: ", cancellation_status)
-                
-
+            
             messages.append({
                 "role": "tool",
                 "tool_call_id": tool_call.id,

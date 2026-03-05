@@ -3,6 +3,8 @@ from mcp_server.services.booking_service import create_booking, get_bookings_by_
 from mcp_server.services.cancellation_service import cancel_booking
 from mcp_server.services.availability_services import check_availability
 from models.booking import Booking
+from mcp_server.data.location import restaurant_info
+from mcp_server.data.menu import fine_dining_menu
 
 router = APIRouter(prefix="/tools", tags=["Tools"])
 
@@ -46,3 +48,11 @@ def get_bookings_by_slot_tool(data: dict):
     time = data.get("time")
     bookings = get_bookings_by_slot(date, time)
     return {"status": "success", "data": bookings}
+
+@router.post("/get_restaurant_info")
+def get_restaurant_info_tool():
+    return {"data": restaurant_info}
+
+@router.post("/get_menu_data")
+def get_menu_data_tool():
+    return {"data": fine_dining_menu}

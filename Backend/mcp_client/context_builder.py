@@ -4,7 +4,7 @@ from datetime import datetime
 from mcp_client.services.ai_service import ai_extract
 from mcp_client.tool_router import execute_tool
 
-RESTAURANT_CAPACITY = 20
+RESTAURANT_CAPACITY = 30
 
 def build_context_from_email(email: Email) -> MCPContext:
     email_data = Email(**email)

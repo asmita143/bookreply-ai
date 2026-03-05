@@ -14,7 +14,7 @@ class MCPContext(BaseModel):
     alternative_time_range: Optional[Tuple[str, str]]
     party_size: Optional[int] = None
     seating_preference: Optional[str]
-    dietary_requirements: Optional[str]
+    dietary_requirements: Optional[List[str]]
     customer_questions: Optional[List[str]]
     extraction_source: Optional[str]
     timestamp: datetime

@@ -57,5 +57,27 @@ TOOLS = [
                 "required": ["booking_date", "booking_time"]
             }
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_restaurant_info",
+            "description": "Get restaurant location and opening hours",
+            "parameters": {
+                "type": "object",
+                "properties": {}
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_menu_data",
+            "description": "Get restaurant menu",
+            "parameters": {
+                "type": "object",
+                "properties": {}
+            }
+        }
     }
 ]
