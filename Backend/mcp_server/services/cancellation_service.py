@@ -10,7 +10,7 @@ def cancel_booking(sender_email: str, booking_date: str, booking_time: str):
         .where("email", "==", sender_email)
         .where("date", "==", booking_date)
         .where("time", "==", booking_time)
-        .where("status", "==", "success")
+        .where("status", "==", "confirmed")
         .get()
     )
 

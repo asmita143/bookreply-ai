@@ -11,7 +11,7 @@ def create_booking(booking: Booking):
         "time": booking.booking_time,
         "email": booking.customer_email,
         "party_size": booking.party_size,
-        "status": "success",
+        "status": "confirmed",
         "dietary_requirements": booking.dietary_requirements,
         "customer_questions": booking.customer_questions
     })
@@ -26,3 +26,15 @@ def get_bookings_by_slot(date: str, time: str):
         .stream()
     )
     return [doc.to_dict() for doc in docs]
+
+def get_all_bookings():
+    bookings = []
+
+    docs = db.collection("bookings").stream()
+
+    for doc in docs:
+        booking = doc.to_dict()
+        booking["id"] = doc.id  
+        bookings.append(booking)
+
+    return bookings
