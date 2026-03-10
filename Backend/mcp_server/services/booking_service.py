@@ -26,3 +26,8 @@ def get_bookings_by_slot(date: str, time: str):
         .stream()
     )
     return [doc.to_dict() for doc in docs]
+
+
+def get_all_bookings():
+    docs = db.collection(COLLECTION).stream()
+    return [{**doc.to_dict(), "id": doc.id} for doc in docs]
