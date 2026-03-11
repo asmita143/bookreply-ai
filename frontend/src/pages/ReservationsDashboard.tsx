@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { DashboardLayout } from "../layout/DashboardLayout";
 import { cn } from "../lib/utils";
 import { useBooking } from "../hooks/useBooking";
-import { Calendar, Users, Settings, PlusCircle, User, Timer, TimerIcon, Database, CalendarCheck2, Edit2, Edit, Delete, LucideDelete, DeleteIcon, Trash, Trash2, ChartArea, BarChart } from 'lucide-react';
+import { Calendar, Users, PlusCircle, User, Timer, CalendarCheck2, Edit, Trash2, BarChart } from 'lucide-react';
 
 
 function formatDisplayDate(date: string) {
@@ -167,13 +167,13 @@ export function ReservationsDashboard() {
 
         <aside className="space-y-4">
           <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
-            <div className="py-3 px-4 border-b border-gray-300 bg-linear-to-r from-blue-50 to-blue-100/30">
+            <div className="py-3 px-3 border-b border-gray-300 bg-linear-to-r from-blue-50 to-blue-100/30">
               <div className="flex items-center gap-2">
                 <User className="w-5 h-5" />
                 <span className="font-semibold text-black">Reservation Details</span>
               </div>
             </div>
-            <div className="p-4 bg-linear-to-br from-blue-50 to-blue-100/30">
+            <div className="p-3 bg-linear-to-br from-blue-50 to-blue-100/30">
               {selectedReservation ? (
                 <div className="space-y-2">
                   <div className="grid grid-cols-[100px_1fr] gap-2 py-2 border-b border-blue-200/50">
@@ -205,12 +205,12 @@ export function ReservationsDashboard() {
                   </div>
                   
                   {selectedReservation && (
-                    <div className="flex gap-2 pt-3 mt-2 border-t border-blue-200/50">
-                      <button className="flex-1 px-2 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-3">
+                    <div className="flex gap-3">
+                      <button className="flex-1 p-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-3">
                         <Edit className="w-5 h-5" />
                         Edit
                       </button>
-                      <button className="flex-1 px-2 py-2 bg-red-50 text-red-600 text-sm font-semibold rounded-lg hover:bg-red-100 transition-colors flex items-center justify-center gap-3">
+                      <button className="flex-1 p-2 border border-red-100 bg-red-50 text-red-600 text-sm font-semibold rounded-lg hover:bg-red-100 transition-colors flex items-center justify-center gap-3">
                         <Trash2 className="w-5 h-5" />
                         Cancel Reservation
                       </button>

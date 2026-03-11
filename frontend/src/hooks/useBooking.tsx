@@ -67,14 +67,14 @@ export function useBooking() {
         setIsLoadingBookings(true);
         setError(null);
 
-        const response = await fetch("/bookings/");
+        const response = await fetch("/bookings/all");
 
         const data = await response.json();
 
         console.log("Fetched booking data ", data.id)
 
         if (!response.ok) {
-            throw new Error("Failed to fetch bookings");
+            throw new Error("Failed to fetch bookings.");
         }
 
         setBookings(data);
