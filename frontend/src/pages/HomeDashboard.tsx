@@ -2,6 +2,7 @@ import React from "react";
 import { DashboardLayout } from "../layout/DashboardLayout";
 import { useEmails } from "../hooks/useEmails";
 import { cn } from "../lib/utils";
+import { Calendar } from "lucide-react";
 
 type Booking = {
   id: string;
@@ -150,7 +151,6 @@ export function HomeDashboard() {
       setMenu(next);
       setDraftMenu(next);
     } catch {
-      // ignore localStorage/JSON errors and keep defaults
     }
   }, []);
 
@@ -218,7 +218,10 @@ export function HomeDashboard() {
       activeNavKey="dashboard"
       topRight={
         <div className="flex items-center gap-2 text-[13px] text-[#536173]">
-          <span className="py-1 px-2 rounded-full bg-[#f0f3f8]">{todayLabel}</span>
+          <span className="flex items-center gap-2 py-2 px-4 bg-linear-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
+            <Calendar className="w-5 h-5 text-blue-600" />
+            {todayLabel}
+          </span>
         </div>
       }
     >

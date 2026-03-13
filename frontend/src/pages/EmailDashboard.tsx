@@ -79,7 +79,10 @@ export function EmailDashboard() {
         { key: "analytics", label: "Analytics" },
         { key: "settings", label: "Settings" },
       ]}
-      topRight={<div className="py-1.5 px-2.5 rounded-full bg-[#f0f3f8] text-[#2b3a4d]">Anna</div>}
+      topRight={
+      <div className="py-2 px-4 bg-linear-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
+        Anna
+      </div>}
     >
       <div className="flex flex-col h-full">
         

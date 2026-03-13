@@ -2,6 +2,7 @@ import React from "react";
 import { DashboardLayout } from "../layout/DashboardLayout";
 import { useEmails, type Email } from "../hooks/useEmails";
 import { cn } from "../lib/utils";
+import { Calendar } from "lucide-react";
 
 type Booking = {
   id: string;
@@ -140,9 +141,10 @@ export function AnalyticsDashboard() {
       activeNavKey="analytics"
       topRight={
         <div className="flex items-center gap-2">
-          <span className="py-1.5 px-2.5 rounded-full bg-[#f0f3f8] text-[#2b3a4d]">
+          <span className="flex items-center gap-2 py-2 px-4 bg-linear-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
+            <Calendar className="w-5 h-5 text-blue-600" />
             {new Date().toLocaleDateString(undefined, {
-              weekday: "short",
+              weekday: "long",
               month: "short",
               day: "numeric",
             })}
@@ -305,7 +307,7 @@ export function AnalyticsDashboard() {
             </p>
           ) : (
             <div className="mt-2 overflow-x-auto">
-              <table className="w-full border-collapse text-[13px] min-w-[480px]">
+              <table className="w-full border-collapse text-[13px] min-w-120">
                 <thead>
                   <tr className="bg-[#f3f6fb] text-[#5a6a81]">
                     <th className="text-left py-2.5 px-3 font-extrabold border-b border-[#e6ebf2]">
