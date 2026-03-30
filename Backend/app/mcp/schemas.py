@@ -11,11 +11,11 @@ class MCPContext(BaseModel):
     capacity: int
     booking_date: Optional[str] = None
     booking_time: Optional[str] = None
-    alternative_time_range: Optional[Tuple[str, str]]
+    alternative_time_range: Optional[List[dict]] = []
     party_size: Optional[int] = None
-    seating_preference: Optional[str]
-    dietary_requirements: Optional[List[str]]
-    customer_questions: Optional[List[str]]
+    seating_preference: Optional[List[str]] = []
+    dietary_requirements: Optional[List[str]] = None
+    customer_questions: Optional[List[str]] = None
     extraction_source: Optional[str]
     timestamp: datetime
     current_bookings: Optional[List[Dict]] = None

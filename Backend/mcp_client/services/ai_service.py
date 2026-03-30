@@ -56,9 +56,11 @@ def generate_ai_reply(context: MCPContext, sender: str):
             When booking availability must be checked, ALWAYS call check_availability first.
             If available is true, call create_booking.
             If available is false, politely reject.
+            If dietary requirements are present, ALSO call get_menu_data and include relevant menu options in the response.
             If location and Opening hours, call get_restaurant_info ONLY.
             If menu, call get_menu_data ONLY.
             If user requests cancellation, call cancel_booking.
+            For mixed requests (e.g., booking + dietary + questions), you may call multiple tools.
             Only produce final customer-facing message after tool responses."""
         },
         {
@@ -117,20 +119,46 @@ def ai_extract(email_text: str):
 
         Email:
         \"\"\"{email_text}\"\"\"
+        Return STRICT JSON only (no explanation, no text).
 
-        Return **strict JSON only**, with keys exactly as below (use null if not available, and arrays for lists):
+        Follow these rules carefully:
+
+        1. booking_date → string in format YYYY-MM-DD
+        2. booking_time → string in format HH:MM (24-hour)
+        3. party_size → integer
+        4. customer_name → string
+
+        5. seating_preference → ALWAYS a list of strings
+        Example: ["window", "quiet corner"]
+
+        6. dietary_requirements → ALWAYS a list of strings
+        Example: ["vegetarian", "gluten-free"]
+
+        7. alternative_time_range → ALWAYS a list of objects:
+        Example:
+        [
+            {{"date": "2026-03-23", "time": "19:30"}},
+            {{"date": "2026-03-24", "time": "20:00"}}
+        ]
+
+        8. customer_questions → ALWAYS a list of strings
+
+        9. If a value is missing:
+        - use null for single values
+        - use [] for lists
+
+        Return exactly this JSON format:
 
         {{
         "booking_date": null,
         "booking_time": null,
         "party_size": null,
         "customer_name": null,
-        "seating_preference": null,
-        "dietary_requirements": null,
-        "alternative_time_range": null,
+        "seating_preference": [],
+        "dietary_requirements": [],
+        "alternative_time_range": [],
         "customer_questions": []
         }}
-        No extra text, no explanations, no comments, just valid JSON.
     """
 
     response = client.chat.completions.create(

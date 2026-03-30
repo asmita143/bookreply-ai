@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from typing import Optional, List
 
 class Booking(BaseModel):
-    id: Optional[str]
     booking_date: Optional[str]
     booking_time: Optional[str]
     party_size: Optional[int]
