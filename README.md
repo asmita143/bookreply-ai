@@ -1,38 +1,43 @@
-﻿# 🤖 MCP in AI-Assisted Restaurant Booking System
+﻿# 🤖 AI-Assisted Restaurant Booking System (MCP-Powered)
 **Bachelor’s Thesis Project | Metropolia University of Applied Sciences**
 
-This repository contains the implementation of an AI-driven automation system designed to handle restaurant customer communications. By leveraging the **Model Context Protocol (MCP)**, the system bridges the gap between Large Language Models (LLMs) and local backend services to automate reservations, cancellations, and general inquiries.
+A high-performance automation system built to transform unstructured customer emails into structured restaurant operations. This project leverages **FastAPI** and the **Model Context Protocol (MCP)** to create an intelligent bridge between Large Language Models and backend databases.
 
-## 🌟 Key Highlights
-* **Agentic AI Workflow:** Uses AI to classify email intent and extract structured data (Date, Time, Guests) from unstructured text.
-* **Model Context Protocol (MCP):** Implements MCP to provide a standardized interface for the AI to interact with the database and external tools securely.
-* **Human-in-the-Loop (HITL):** Features a staff dashboard where AI-generated drafts are reviewed before being sent, ensuring 100% communication accuracy.
+## 🌟 Key Features
+* **Intent Classification:** Automatically categorizes emails into *Booking*, *Cancellation*, or *General Inquiry*.
+* **Information Extraction:** Uses AI to identify key entities like dates, times, and guest counts from natural language.
+* **Availability Logic:** The backend verifies table availability in real-time before generating responses.
+* **Human-in-the-Loop (HITL):** A React-based admin dashboard allows staff to review and approve AI-generated drafts.
+* **MCP Integration:** Implements the Model Context Protocol to standardize how the AI model accesses restaurant resources and tools.
+
+
 
 ## 🛠️ Tech Stack
-* **Frontend:** React (Staff Dashboard)
-* **Backend:** Node.js, Express
-* **AI/ML:** OpenAI API (GPT models), Google MediaPipe
-* **Database:** Google Firebase / Cloud Firestore
-* **Protocols:** Model Context Protocol (MCP)
-* **Integration:** Gmail API for real-time email fetching
+* **Backend:** Python 3.x, **FastAPI** (Asynchronous High-Performance Framework)
+* **Frontend:** React, TypeScript,
+* **Database:** Google Firebase Firestore (Real-time NoSQL)
+* **AI Engine:** OpenAI API (GPT Models)
+* **Communication:** Gmail API for automated ingestion and response handling
+* **Protocol:** Model Context Protocol (MCP)
 
 ## 📐 System Architecture
-The system follows a modular architecture:
-1. **Email Ingestion:** Fetches customer inquiries via Gmail API.
-2. **Intent Classification:** AI determines if the user wants to Book, Cancel, or Ask a question.
-3. **Data Extraction:** Extracts entities (e.g., "Saturday at 7 PM", "4 people").
-4. **MCP Tool Selection:** The AI uses MCP to check table availability in Firestore.
-5. **Human Review:** Staff approves the generated response in the React dashboard.
+1.  **Ingestion:** Incoming emails are fetched via the Gmail API.
+2.  **Processing (FastAPI):** The backend triggers an AI workflow to detect intent and extract data.
+3.  **Context Management:** MCP provides the AI with the necessary context (menu, availability, rules) to generate an accurate response.
+4.  **Database Interaction:** Results are stored in Firestore for persistence and real-time dashboard updates.
+5.  **Final Approval:** Staff sends the response through the dashboard with a single click.
 
-## 🚀 Impact & Results
-* **Efficiency:** Reduced response time from **10 minutes** to **seconds**.
-* **Accuracy:** High success rate in intent detection for structured and semi-structured customer requests.
-* **Scalability:** Built to handle multiple simultaneous inquiries without increasing administrative overhead.
 
-## 📂 Project Structure
-* `/frontend`: React-based dashboard for restaurant staff.
-* `/backend`: Node.js server handling MCP tools, AI logic, and Gmail integration.
-* `/mcp-server`: Specialized server implementing the Model Context Protocol standards.
+
+## 📈 Evaluation & Results
+* **Response Efficiency:** Reduced average manual handling time from ~10 minutes to under 5 seconds.
+* **Data Accuracy:** Achieved high precision in entity extraction for structured requests.
+* **Resource Optimized:** Utilized FastAPI’s asynchronous capabilities to handle multiple concurrent email threads efficiently.
+
+## 📂 Repository Structure
+* `/backend`: FastAPI server, AI logic, and MCP tool definitions.
+* `/frontend`: TypeScript/React admin dashboard.
+* `/docs`: Thesis documentation and architectural diagrams.
 
 ## 📝 License
-This project was developed as part of a Bachelor’s Thesis at Metropolia UAS. All rights reserved.
+Developed as a Bachelor’s Thesis at Metropolia UAS. All rights reserved.
